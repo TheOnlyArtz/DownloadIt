@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>DownloadIt</title>
+    <style type="text/css">
+      body {
+        background-color: #2B2E3B
+      }
+      
+      li {
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        list-style-type: none;
+      }
+      
+      .header {
+        width: 700px;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 28%;
+        bottom: 0px;
+        margin: auto;        
+      }
+      
+      .containerr {
+        width: 500px;
+        height: 40px;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+        margin: auto;
+      }
+      input[type=text] {
+        width: 500px;
+        height: 40px;
+        border: 1px solid black;
+        border-radius:10px;
+        border-color: #fff;
+        background-color: #282E3B;
+      }
+      
+      input[type=file] {
+        
+      }
+      
+      input:focus{
+        color: #fff;
+      }
+      ::-webkit-input-placeholder {
+         text-align: center;
+      }
+
+      :-moz-placeholder { /* Firefox 18- */
+         text-align: center;  
+      }
+
+      ::-moz-placeholder {  /* Firefox 19+ */
+         text-align: center;  
+      }
+
+      :-ms-input-placeholder {  
+         text-align: center; 
+      }
+      
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  </head>
+  <body>
+    <p style="color: white; margin-left: 2%;">Discord rich presence: <button class="waves-effect waves-light btn-small" id= "rpEnable" onClick="changeEn()" style="width: 100px; height:30px; margin-left: 1%">disabled</button> (Restart required)</p>
+    <div class="containerr" id="divv">
+        <input type="text" id="SongForm" type="submit" required placeholder="Song name or link">
+      
+        <button style="display:auto;width 100px; height:30px;" class="btn-small" onclick="document.getElementById('flup').click()">Choose path</button>
+        <a style="color: #fff" id="pathText"></a>
+      
+        <input type="file" id="flup" onchange="getfolder(event)" style="display:none" webkitdirectory mozdirectory msdirectory odirectory directory multiple />
+      <ul id="list"></ul>
+    </div>
+    <script>
+      
+      function getfolder(e) {
+        let files = e.target.files;
+        let path = decodeURIComponent(encodeURIComponent(files[0].path)).replace(/\\/g, '/')
+        window.localStorage.setItem('path', path)  // set download path
+        document.pathAvilable = window.localStorage.getItem('path');
+        document.getElementById('pathText').innerHTML = pathAvilable === null ? "" : document.pathAvilable;
+      }
+      
+      const pathAvilable = window.localStorage.getItem('path');
+      document.getElementById('pathText').innerHTML = pathAvilable === null ? "" : pathAvilable;
+      
+      // You can also require other files to run in this process
+      require('./renderer.js')
+      const rpc = require('./rpc.js')
+      const btn = document.getElementById('rpEnable')
+      
+      const RPCAvilable = window.localStorage.getItem('rpc');
+      document.pathAvilable = window.localStorage.getItem('path');
+      if (RPCAvilable === null) {
+        window.localStorage.setItem('rpc', false);
+      }
+      
+      
+      const buttonState = window.localStorage.getItem('rpc');
+      if (buttonState === "true") {
+        let p = btn.className + " green";
+        btn.className = p 
+        btn.innerText = 'ENABLED'
+        window.localStorage.setItem('rpc', true);
+        rpc.connect()
+        
+      } else if (buttonState === "false") {
+        let l = btn.className + " red"
+        btn.className = l
+        btn.innerText = 'DISABLED'
+        window.localStorage.setItem('rpc', false);
+      }
+      
+      function changeEn() {
+        const current = window.localStorage.getItem('rpc');
+        
+        if (current === "false") {
+          let p = btn.className.replace('red', 'green');
+          btn.className = p;
+          btn.innerText = 'ENABLED'
+          window.localStorage.setItem('rpc', true);
+          
+//          rpc.connect()
+          
+        } else if (current === "true") {
+          let l = btn.className.replace('green', 'red');
+          btn.className = l
+          btn.innerText = 'DISABLED'
+          window.localStorage.setItem('rpc', false);
+//          rpc.destroy() Investagating
+        }
+      }
+    </script>
+  </body>
+</html>

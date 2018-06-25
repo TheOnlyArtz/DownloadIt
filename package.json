@@ -1,0 +1,29 @@
+{
+  "name": "DownloadIt",
+  "version": "1.0.0",
+  "description": "A song downloader made with love.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/TheOnlyArtz/DownloadIt",
+  "keywords": [
+    "Electron"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^2.0.0"
+  },
+  "dependencies": {
+    "artzlogger": "0.0.12",
+    "chalk": "^2.4.1",
+    "discord-rpc": "^3.0.0-beta.11",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-winstaller": "^2.6.4",
+    "progress-stream": "^2.0.0",
+    "snekfetch": "^4.0.4",
+    "youtube-info": "^1.2.0",
+    "ytdl-core": "^0.20.4"
+  }
+}
