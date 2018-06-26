@@ -1,6 +1,6 @@
 {
   "name": "DowmloadIt",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "Song downloader made with love.",
   "main": "main.js",
   "scripts": {
@@ -45,7 +45,7 @@
     "electron-is-dev": "^0.3.0",
     "electron-log": "^2.2.15",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-updater": "^2.21.10",
+    "electron-updater": "^2.22.0",
     "electron-winstaller": "^2.6.4",
     "progress-stream": "^2.0.0",
     "snekfetch": "^4.0.4",

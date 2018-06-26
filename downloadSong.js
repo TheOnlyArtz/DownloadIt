@@ -26,7 +26,7 @@ function downloadSong(name, path) {
     fs.readdir(path, async (err, files) => {
       if (err) throw Error(err);
       toDownload = ytdl(data.body.items[0].id.videoId, { filter: (format) => format.container === 'm4a'})
-      let title = decodeURIComponent(encodeURIComponent(info.title)).replace(/\.|\…|\-|\?|\#|\!|\@|\$|\%|\^|\&|\*|\(|\\|\)|\_|\=|\+|[0-9]|\"|\[|\]|\|/g, ''); //Make sure to kick those errors.
+      let title = decodeURIComponent(encodeURIComponent(info.title)).replace(/([^(א|ב|ג|ד|ה|ו|ז|ח|ט|י|כ|ל|מ|נ|ס|ע|פ|צ|ק|ר|ש|ת^a-z0-9)])/gi, "-") //Make sure to kick those errors.
       
       res({
         titles: info.title,
