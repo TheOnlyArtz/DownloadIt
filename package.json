@@ -1,25 +1,51 @@
 {
-  "name": "DownloadIt",
-  "version": "1.0.0",
-  "description": "A song downloader made with love.",
+  "name": "DowmloadIt",
+  "version": "1.0.8",
+  "description": "Song downloader made with love.",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "gh-publish": "electron-builder --x64 --mac -p always"
   },
+  "author": "TheOnlyArtz",
+  "license": "MIT",
   "repository": "https://github.com/TheOnlyArtz/DownloadIt",
-  "keywords": [
-    "Electron"
-  ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^2.0.0"
+    "electron": "^2.0.3"
+  },
+  "publish": [
+    {
+      "provider": "github",
+      "repo": "DownloadIt",
+      "owner": "TheOnlyArtz",
+      "url": "https://github.com/TheOnlyArtz/DownloadIt"
+    }
+  ],
+  "win": {
+    "publish": [
+      "github",
+      "bintray"
+    ],
+    "target": "squirrel"
+  },
+  "mac": {
+    "target": [
+      "dmg",
+      "zip"
+    ],
+    "category": "public.app-category.utilities"
   },
   "dependencies": {
     "artzlogger": "0.0.12",
     "chalk": "^2.4.1",
     "discord-rpc": "^3.0.0-beta.11",
+    "electron-builder-squirrel-windows": "^20.16.0",
+    "electron-is-dev": "^0.3.0",
+    "electron-log": "^2.2.15",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-updater": "^2.21.10",
     "electron-winstaller": "^2.6.4",
     "progress-stream": "^2.0.0",
     "snekfetch": "^4.0.4",

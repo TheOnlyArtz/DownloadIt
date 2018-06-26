@@ -1,0 +1,9 @@
+version: 1.0.8
+files:
+  - url: DowmloadIt-Setup-1.0.8.exe
+    sha512: CoYwqgQ6aJmdowwVORm9LHrZUEMxst1skngrXjDC6X4oPrxeDBGLFrzLxa6cLwt/bX6KWlWBHX/nYE/HoDe/Mw==
+    size: 62703784
+path: DowmloadIt-Setup-1.0.8.exe
+sha512: CoYwqgQ6aJmdowwVORm9LHrZUEMxst1skngrXjDC6X4oPrxeDBGLFrzLxa6cLwt/bX6KWlWBHX/nYE/HoDe/Mw==
+sha2: 45d6e1a57d2c08ff7c7fb6a1c8cfa3f8bdd4b54d90769702f4b6f7dc7e79fee1
+releaseDate: '2018-06-26T11:23:37.635Z'

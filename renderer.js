@@ -3,7 +3,6 @@
 // All of the Node.js APIs are available in this process.
 let toChange = -1;
 const downloadSong = require('./downloadSong');
-const progress = require('progress-stream');
 const fs = require('fs');
 let lastTerm;
 async function s () {
@@ -35,7 +34,15 @@ async function s () {
       
       position[downloadInfo.titles] = {pos: toChange};
       
-      let node = document.createElement("LI");                 // Create a <li> node
+      let node = document.createElement("LI"); 
+      node.className = "theme"
+      
+      if (window.localStorage.getItem('theme') === 'night') {
+        node.style.color = "white"
+      } else if (window.localStorage.getItem('theme') === "light") {
+        node.style.color = "#212121"  
+      }
+      
       let textnode = document.createTextNode(found ? "Downloading: " + downloadInfo.titles : `Didn\'t find results for: ` + downloadInfo.titles);         // Create a text node
       node.appendChild(textnode);  
       document.getElementById("list").appendChild(node);

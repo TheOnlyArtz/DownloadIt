@@ -11,6 +11,7 @@ const logger = new artzlogger;
 let toDownload;
 
 function downloadSong(name, path) {
+  console.log(name)
   return new Promise(async (res, rej) => {
     let data = await sf.get(`https://www.googleapis.com/youtube/v3/search?part=id&type=video&q=` + encodeURIComponent(name) + '&key=' + API_key);
       
@@ -25,14 +26,13 @@ function downloadSong(name, path) {
     fs.readdir(path, async (err, files) => {
       if (err) throw Error(err);
       toDownload = ytdl(data.body.items[0].id.videoId, { filter: (format) => format.container === 'm4a'})
-      let title = info.title.replace(/\.|\…|\-|\?|\#|\!|\@|\$|\%|\^|\&|\*|\(|\)|\_|\=|\+|[0-9]|\"|\[|\]|\//g, ''); //Make sure to kick those errors.
+      let title = decodeURIComponent(encodeURIComponent(info.title)).replace(/\.|\…|\-|\?|\#|\!|\@|\$|\%|\^|\&|\*|\(|\\|\)|\_|\=|\+|[0-9]|\"|\[|\]|\|/g, ''); //Make sure to kick those errors.
       
       res({
-        titles: title,
+        titles: info.title,
         buffer: toDownload,
         found: true
       });
-
       toDownload.pipe(fs.createWriteStream(path + '/' + title + '.mp3'))
     });
   });
