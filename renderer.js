@@ -15,14 +15,18 @@ async function s () {
         return
       }
       
-      
       toChange++
       let form = document.getElementById('SongForm');
       let value = form.value
-      
+      let themeType = window.localStorage.getItem('theme');
       if (lastTerm === value) return; //Don't keep going if spamming same result.
       lastTerm = value;
       
+      if (themeType === 'night') {
+        M.toast({html: `<span style="color:white">Looking for: ${value}</span>`, classes: 'grey darken-3'})
+      } else if (themeType === 'light') {
+        M.toast({html: `<span style="color:black">Looking for: ${value}</span>`, classes: 'grey lighten-4'})
+      }// Launch a responsive toast.
       const downloadInfo = await downloadSong(value, path);
       
       const position = {}
@@ -37,9 +41,9 @@ async function s () {
       let node = document.createElement("LI"); 
       node.className = "theme"
       
-      if (window.localStorage.getItem('theme') === 'night') {
+      if (themeType === 'night') {
         node.style.color = "white"
-      } else if (window.localStorage.getItem('theme') === "light") {
+      } else if (themeType === "light") {
         node.style.color = "#212121"  
       }
       

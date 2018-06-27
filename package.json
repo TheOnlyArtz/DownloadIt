@@ -1,6 +1,6 @@
 {
-  "name": "DowmloadIt",
-  "version": "1.1.0",
+  "name": "DownloadIt",
+  "version": "1.1.6",
   "description": "Song downloader made with love.",
   "main": "main.js",
   "scripts": {

@@ -36,8 +36,6 @@ app.on('ready', ()=> {
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit()
   }
@@ -59,11 +57,10 @@ autoUpdater.on('update-avilable', info => {
   console.log('Update available');
   console.log('Version', info.version);
   console.log('Release date', info.releaseDate);
-  dialog.showMessageBox({type:"info", message:"Update is available (Downloading right now!) don\'t exit the software untill it restarts (Can take up to 10 min depends on your network)"});
 });
 
 autoUpdater.on('update-not-available', info => {
-  console.log(info)
+  mainWindow.webContents.send('changelog', info.releaseNotes);
 });
 
 autoUpdater.on('download-progress', p => {
