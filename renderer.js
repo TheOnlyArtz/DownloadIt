@@ -26,7 +26,8 @@ async function s () {
         M.toast({html: `<span style="color:white">Looking for: ${value}</span>`, classes: 'grey darken-3'})
       } else if (themeType === 'light') {
         M.toast({html: `<span style="color:black">Looking for: ${value}</span>`, classes: 'grey lighten-4'})
-      }// Launch a responsive toast.
+      }
+      // Launch a responsive toast.
       const downloadInfo = await downloadSong(value, path);
       
       const position = {}

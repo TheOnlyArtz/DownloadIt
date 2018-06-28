@@ -5,12 +5,12 @@ const fetcher = require('youtube-info');
 const chalk = require('chalk');
 const artzlogger = require('artzlogger');
 const {API_key} = require('./config/settings.json');
-
 const logger = new artzlogger;
 
 let toDownload;
 
 function downloadSong(name, path) {
+  const typeStatus = window.localStorage.getItem('mainType')
   console.log(name)
   return new Promise(async (res, rej) => {
     let data = await sf.get(`https://www.googleapis.com/youtube/v3/search?part=id&type=video&q=` + encodeURIComponent(name) + '&key=' + API_key);
@@ -25,7 +25,7 @@ function downloadSong(name, path) {
 
     fs.readdir(path, async (err, files) => {
       if (err) throw Error(err);
-      toDownload = ytdl(data.body.items[0].id.videoId, { filter: (format) => format.container === 'm4a'})
+      toDownload = ytdl(data.body.items[0].id.videoId, { filter: (format) => format.container === typeStatus})
       let title = decodeURIComponent(encodeURIComponent(info.title)).replace(/([^a-z0-9אבגדהוזחטיכלמנסעפצקרשתםןףךץ ])/gi, "") //Make sure to kick those errors.
       
       res({
@@ -33,7 +33,7 @@ function downloadSong(name, path) {
         buffer: toDownload,
         found: true
       });
-      toDownload.pipe(fs.createWriteStream(path + '/' + title + '.mp3'))
+      toDownload.pipe(fs.createWriteStream(path + '/' + title + (typeStatus === null ? '.mp3' : '.mp4')))
     });
   });
 

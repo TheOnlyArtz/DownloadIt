@@ -66,9 +66,9 @@
       }
       
     </style>
-    <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      <script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
@@ -92,182 +92,43 @@
     
     <div class="containerr" id="divv">
       <!-- Search for song input -->
-      <input type="text" style="color: red;"id="SongForm" type="submit" required placeholder="Song name or link">
-      
       <!-- Path controller algorithm -->
+        <input type="text" id="SongForm" type="submit" required placeholder="Song name or link">
       <button style="display:auto;width 100px; height:30px;" id="pathBtn" class="btn-small" onclick="document.getElementById('flup').click()">Choose path</button>
       <a style="color: #fff" id="pathText"></a>
 
       <input type="file" id="flup" onchange="getfolder(event)" style="display:none" webkitdirectory mozdirectory msdirectory odirectory directory multiple />
+        <div class="fixed-action-btn small click-to-toggle">
+          <a class="btn-floating btn-large" id="mainTypeStatusAttribute">
+            <i class="fas fa-music" id="mainTypeStatus"></i>
+          </a>
+          <ul>
+            <li><a class="btn-floating" id="secondTypeStatusAttribute"><i id="secondTypeStatus" class="fas fa-video"></i></a></li>
+          </ul>
+        </div>
       <ul id="list"></ul>
     </div>
-    
+    <script src="controllers/changelog.js"></script>
+    <script src="controllers/theme.js"></script>
+    <script src="controllers/path.js"></script>
+    <script src="controllers/rpc.js"></script>
+    <script src="controllers/type.js"></script>
+
     <script>
-    const electron = require('electron')
-    const pack = require('./package.json')
+      const electron = require('electron');
+      const pack = require('./package.json');
 
-    const theme = () => {return window.localStorage.getItem('theme')}
-
-    electron.ipcRenderer.on('appVersion', (event, message) => {
-      document.title = `DownloadIt ${message}`;
-      document.appVersion = message;
-    });     
-    electron.ipcRenderer.on('updatePercent', (event, message) => {
-      document.title = `DownloadIt ${message}`;
-    });
-      
-    // changelog
-     $(document).ready(function(){
-        electron.ipcRenderer.on('changelog', (event, message) => {
-          message = message.replace(/\<li\>/g, `<li class="modal-text"> - `);
-          document.getElementById('modal1').innerHTML = document.getElementById('modal1').innerHTML + message
-          document.getElementById('modal-header').innerHTML = `Changelog v${pack.version}:`
-          if (theme() === 'night') {
-            $('.modal-text').css('color', 'white');
-          } else if (theme() === 'light') {
-            $('.modal-text').css('color', 'black');
-          }
-          
-          var elems = document.querySelectorAll('.modal');
-          var instances = M.Modal.init(elems);
-          
-          const didChangelogAppear = window.localStorage.getItem('changelog');
-          if (didChangelogAppear === null || didChangelogAppear !== document.appVersion) $('#modal-trigger').click();
-          window.localStorage.setItem('changelog', document.appVersion);
-        })
-      });  
-
-
-      
-
-      
-      if (theme() === null) {
-        window.localStorage.setItem('theme', 'night')
-      }
-      
-      const themeBtn = document.getElementById('themeBtn');
-      const pathBtn = document.getElementById('pathBtn');
-      const rpcText = document.getElementById('rpcText');
-      const pathText = document.getElementById('pathText');
-      const themeText = document.getElementById('themeText');
-      const songList = document.getElementsByClassName('theme');
-      const songForm = document.getElementById('SongForm');
-      const changelog = document.getElementById('modal1');
-
-      function updateComponents(mode) {
-        if (mode === 'night') {
-          themeBtn.innerHTML = 'Night <i class="fas fa-moon"></i>';
-          themeBtn.className = 'waves-effect waves-light btn-small grey darken-3'
-          pathBtn.className = 'btn-small grey darken-3'
-          changelog.className = 'modal grey darken-4'
-          document.body.style.cssText = 'background-color: #212121';
-          pathText.style.color = "#eeeeee";
-          rpcText.style.color = "#eeeeee";
-          themeBtn.style.color = "#eeeeee";
-          pathBtn.style.color = "#eeeeee";
-          themeText.style.color = "#eeeeee";
-          songForm.style.color = "#eeeeee";
-          $('.modal-text').css('color', '#eeeeee');
-          $('li').css('color', '#eeeeee');
-          for (y in songList) {
-            if (songList.hasOwnProperty(y)) {
-              songList[y].style.color = "#eeeeee"
-            }
-          }
-
-        } else if (mode === 'light') {
-          themeBtn.innerHTML = 'Light  <i class="fas fa-sun"></i>';
-          themeBtn.className = "waves-effect waves-light btn-small grey lighten-4"
-          pathBtn.className = 'btn-small grey lighten-4'
-          changelog.className = 'modal grey lighten-4'
-          document.body.style.cssText = 'background-color: #ffffff '
-          pathText.style.color = "#212121";
-          rpcText.style.color = "#212121";
-          themeBtn.style.color = "#212121";
-          pathBtn.style.color = "#212121";
-          themeText.style.color = "#212121";
-          songForm.style.color = "#212121";
-          
-          for (y in songList) {
-            if (songList.hasOwnProperty(y)) {
-              songList[y].style.color = "#212121"
-            }
-          }
-        }
-      }
-      
-      if (theme() === 'night') {
-        updateComponents('night')
-      } else if (theme() === 'light') {
-        updateComponents('light')
-      }
-      function changeTheme() {
-        if (theme() === 'night') {
-          window.localStorage.setItem('theme', 'light');
-          updateComponents('light');
-        } else if (theme() === 'light') {
-          window.localStorage.setItem('theme', 'night');
-          updateComponents('night')
-        }
-      }
-      
-      function getfolder(e) {
-        let files = e.target.files;
-        let path = decodeURIComponent(encodeURIComponent(files[0].path)).replace(/\\/g, '/')
-        window.localStorage.setItem('path', path)  // set download path
-        document.pathAvilable = window.localStorage.getItem('path');
-        document.getElementById('pathText').innerHTML = pathAvilable === null ? "" : document.pathAvilable;
-      }
-      
-      const pathAvilable = window.localStorage.getItem('path');
-      document.getElementById('pathText').innerHTML = pathAvilable === null ? "" : pathAvilable;
+      electron.ipcRenderer.on('appVersion', (event, message) => {
+        document.title = `DownloadIt ${message}`;
+        document.appVersion = message;
+      });     
+      electron.ipcRenderer.on('updatePercent', (event, message) => {
+        document.title = `DownloadIt ${message}`;
+      });
       
       // You can also require other files to run in this process
       require('./renderer.js')
-      const rpc = require('./rpc.js')
-      const btn = document.getElementById('rpEnable')
-      
-      const RPCAvilable = window.localStorage.getItem('rpc');
-      document.pathAvilable = window.localStorage.getItem('path');
-      if (RPCAvilable === null) {
-        window.localStorage.setItem('rpc', false);
-      }
-      
-      
-      const buttonState = window.localStorage.getItem('rpc');
-      if (buttonState === "true") {
-        let p = btn.className + " green";
-        btn.className = p 
-        btn.innerText = 'ENABLED'
-        window.localStorage.setItem('rpc', true);
-        rpc.connect()
-        
-      } else if (buttonState === "false") {
-        let l = btn.className + " red"
-        btn.className = l
-        btn.innerText = 'DISABLED'
-        window.localStorage.setItem('rpc', false);
-      }
-      
-      function changeEn() {
-        const current = window.localStorage.getItem('rpc');
-        
-        if (current === "false") {
-          let p = btn.className.replace('red', 'green');
-          btn.className = p;
-          btn.innerText = 'ENABLED'
-          window.localStorage.setItem('rpc', true);
-          
-//          rpc.connect()
-          
-        } else if (current === "true") {
-          let l = btn.className.replace('green', 'red');
-          btn.className = l
-          btn.innerText = 'DISABLED'
-          window.localStorage.setItem('rpc', false);
-//          rpc.destroy() Investagating
-        }
-      }
+
     </script>
   </body>
 </html>
